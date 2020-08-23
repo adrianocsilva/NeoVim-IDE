@@ -1,3 +1,3 @@
-# Github
-Arquivos de configuração para tornar o NeoVim uma IDE completa para desenvolvimento em linguagem Python.
+# NeoVim-IDE
 
+Collection of configurations and plugins to make NeoVim an efficient, beautiful and friendly IDE.
