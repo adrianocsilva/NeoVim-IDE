@@ -1,12 +1,8 @@
 
-nnoremap <leader>; A;<esc>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>eb :source $MYVIMRC<cr>
-
-
 "*****************************************************************************
 "" Vim-Plug core
 "*****************************************************************************
+
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 
 if !filereadable(vimplug_exists)
@@ -46,6 +42,7 @@ filetype plugin indent on
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
+
 syntax on
 set ruler
 set number
@@ -63,6 +60,7 @@ set t_Co=256
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
+
 "" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -91,3 +89,17 @@ set ignorecase
 set smartcase
 set inccommand=split
 set fileformats=unix,dos,mac
+
+
+"*****************************************************************************
+"" Mappings
+"*****************************************************************************
+
+"" Copy/Paste/Cut
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
+
+nnoremap <leader>; A;<esc>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>eb :source $MYVIMRC<cr>
