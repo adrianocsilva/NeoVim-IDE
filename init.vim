@@ -6,7 +6,6 @@ let mapleader="\<space>"
 nnoremap <leader>; A;<esc>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr><C-w>w
 nnoremap <leader>eb :source $MYVIMRC<cr>
-map <F5> :e <CR>
 
 
 "*****************************************************************************
