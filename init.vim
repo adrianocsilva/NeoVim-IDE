@@ -13,9 +13,6 @@ nnoremap <leader>eb :source $MYVIMRC<cr>
 "*****************************************************************************
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 
-let g:vim_bootstrap_langs = "python"
-let g:vim_bootstrap_editor = "nvim"				" nvim or vim
-
 if !filereadable(vimplug_exists)
   if !executable("curl")
     echoerr "You have to install curl or first install vim-plug yourself!"
@@ -31,3 +28,22 @@ endif
 
 " Required:
 call plug#begin(expand('~/.config/nvim/plugged'))
+
+
+"*****************************************************************************
+"" Plug install packages
+"*****************************************************************************
+
+"" Color
+Plug 'tomasr/molokai'
+
+"*****************************************************************************
+"*****************************************************************************
+
+
+call plug#end()
+
+" Required:
+filetype plugin indent on
+
+
