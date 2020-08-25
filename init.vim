@@ -30,6 +30,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'sheerun/vim-polyglot'
 
 "*****************************************************************************
 "*****************************************************************************
