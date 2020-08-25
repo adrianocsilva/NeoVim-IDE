@@ -1,6 +1,4 @@
 set hidden
-set nonumber
-set relativenumber
 set inccommand=split
 let mapleader="\<space>"
 nnoremap <leader>; A;<esc>
@@ -35,15 +33,29 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 
 "" Color
+Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
 
 "*****************************************************************************
 "*****************************************************************************
-
-
 call plug#end()
 
 " Required:
 filetype plugin indent on
 
 
+"*****************************************************************************
+"" Visual Settings
+"*****************************************************************************
+syntax on
+set ruler
+set number
+set relativenumber
+set cursorline
+
+
+let no_buffers_menu=1
+silent! colorscheme gruvbox
+
+set mousemodel=popup
+set t_Co=256
