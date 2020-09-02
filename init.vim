@@ -1,4 +1,5 @@
 
+
 "*****************************************************************************
 "" Vim-Plug core
 "*****************************************************************************
@@ -26,13 +27,22 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 
-"" Color
-Plug 'morhetz/gruvbox'
-Plug 'tomasr/molokai'
+"" Utility
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
 
-"" Airline
+"" Color
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
+Plug 'tomasr/molokai'
+Plug 'rakr/vim-one'
+
+"" Theme / Interface
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
 
 "" Replace
 Plug 'terryma/vim-multiple-cursors'
@@ -70,16 +80,25 @@ set cursorline
 
 let no_buffers_menu=1
 
-set mousemodel=popup
-set t_Co=256
-set background=dark
-
 if (has("termguicolors"))
   set termguicolors
 endif
 
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme gruvbox
+"let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+
+set background=dark
+
+
+"" Italics for my favorite color scheme
+let g:one_allow_italics = 1 " I love italic for comments
+let g:palenight_terminal_italics=1
+
+colorscheme palenight
+
+let g:lightline = { 'colorscheme': 'palenight' }
+let g:airline_theme = 'palenight'
 
 
 "*****************************************************************************
@@ -135,6 +154,8 @@ nnoremap <leader>eb :source $MYVIMRC<cr>
 "*****************************************************************************
 
 " vim-airline
+"let g:airline_theme='distinguished'
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -169,3 +190,17 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
+
+
+"*****************************************************************************
+"" Custom configs
+"*****************************************************************************
+
+" vim-airline
+let g:airline#extensions#virtualenv#enabled = 1
+
+" Syntax highlight
+" Default python highlight is better than polyglot
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+
