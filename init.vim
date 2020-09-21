@@ -1,9 +1,6 @@
-
-
-"*****************************************************************************
-"" Vim-Plug core
-"*****************************************************************************
-
+"echo g:Lf_fuzzyEngine_C"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim-Plug core (Begin)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 
 if !filereadable(vimplug_exists)
@@ -23,34 +20,49 @@ endif
 call plug#begin(expand('~/.config/nvim/plugged'))
 
 
-"*****************************************************************************
-"" Plug install packages
-"*****************************************************************************
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Custom configs
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"" Utility
+" Vim-Airline Configuration
+let g:airline#extensions#tabline#enabled = 1 
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#virtualenv#enabled = 1
+
+" Syntax highlight (Default python highlight is better than polyglot)
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+
+"LeaderF Popup Mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plug install packages
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Utility
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 
-"" Color
+" Color / Themes
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
 Plug 'tomasr/molokai'
 Plug 'rakr/vim-one'
+Plug 'tomasiser/vim-code-dark'
 
-"" Theme / Interface
+" Interface
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
-"" Replace
-Plug 'terryma/vim-multiple-cursors'
-
-"" Syntax
+" Syntax
 Plug 'sheerun/vim-polyglot'
 
-"" Search
+" Search
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
@@ -59,19 +71,20 @@ else
 endif
 
 Plug 'mileszs/ack.vim'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
-"*****************************************************************************
-"*****************************************************************************
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim-Plug core (End)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
 
 " Required:
 filetype plugin indent on
 
 
-"*****************************************************************************
-"" Visual Settings
-"*****************************************************************************
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Visual Settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 set ruler
 set number
@@ -80,53 +93,54 @@ set cursorline
 
 let no_buffers_menu=1
 
+" True color support
 if (has("termguicolors"))
   set termguicolors
 endif
 
-"let ayucolor="light"  " for light version of theme
-let ayucolor="mirage" " for mirage version of theme
-"let ayucolor="dark"   " for dark version of theme
-
 set background=dark
 
+" Ayucolor options
+"let ayucolor="light"  " for light version of theme
+"let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
 
-"" Italics for my favorite color scheme
-let g:one_allow_italics = 1 " I love italic for comments
+" Palenight color options
+"let g:lightline = { 'colorscheme': 'palenight' }
+"let g:airline_theme = 'palenight'
+
+" Italic support
+let g:one_allow_italics = 1 
 let g:palenight_terminal_italics=1
 
-colorscheme palenight
-
-let g:lightline = { 'colorscheme': 'palenight' }
-let g:airline_theme = 'palenight'
+colorscheme one
 
 
-"*****************************************************************************
-"" Basic Setup
-"*****************************************************************************"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Basic Setup
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"" Encoding
+" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
-
-"" Fix backspace indent
+" Fix backspace indent
 set backspace=indent,eol,start
 
-"" Tabs. May be overridden by autocmd rules
+" Tabs. May be overridden by autocmd rules
 set tabstop=4
 set softtabstop=0
 set shiftwidth=4
 set expandtab
 
-"" Map leader to ,
+" Map leader to ,
 let mapleader="\<space>"
 
-"" Enable hidden buffers
+" Enable hidden buffers
 set hidden
 
-"" Searching
+" Searching
 set hlsearch
 set incsearch
 set ignorecase
@@ -135,11 +149,11 @@ set inccommand=split
 set fileformats=unix,dos,mac
 
 
-"*****************************************************************************
-"" Mappings
-"*****************************************************************************
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"" Copy/Paste/Cut
+" Copy/Paste/Cut
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
@@ -147,60 +161,5 @@ endif
 nnoremap <leader>; A;<esc>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>eb :source $MYVIMRC<cr>
-
-
-"*****************************************************************************
-"" Convenience variables
-"*****************************************************************************
-
-" vim-airline
-"let g:airline_theme='distinguished'
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
-
-
-"*****************************************************************************
-"" Custom configs
-"*****************************************************************************
-
-" vim-airline
-let g:airline#extensions#virtualenv#enabled = 1
-
-" Syntax highlight
-" Default python highlight is better than polyglot
-let g:polyglot_disabled = ['python']
-let python_highlight_all = 1
-
+"nnoremap <c-p> :Files<cr>
+"nnoremap <c-f> :Rg<space>
