@@ -1,4 +1,4 @@
-"echo g:Lf_fuzzyEngine_C"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug core (Begin)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
@@ -33,9 +33,6 @@ let g:airline#extensions#virtualenv#enabled = 1
 let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 
-"LeaderF Popup Mode
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug install packages
@@ -61,6 +58,8 @@ Plug 'ryanoasis/vim-devicons'
 
 " Syntax
 Plug 'sheerun/vim-polyglot'
+Plug 'mileszs/ack.vim'
+Plug 'dense-analysis/ale'
 
 " Search
 if isdirectory('/usr/local/opt/fzf')
@@ -71,7 +70,7 @@ else
 endif
 
 Plug 'mileszs/ack.vim'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug core (End)
@@ -161,5 +160,5 @@ endif
 nnoremap <leader>; A;<esc>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>eb :source $MYVIMRC<cr>
-"nnoremap <c-p> :Files<cr>
-"nnoremap <c-f> :Rg<space>
+nnoremap <c-p> :Files<cr>
+nnoremap <c-f> :Rg<space>
