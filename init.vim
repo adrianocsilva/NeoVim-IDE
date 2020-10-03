@@ -25,13 +25,68 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Vim-Airline Configuration
-let g:airline#extensions#tabline#enabled = 1 
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#virtualenv#enabled = 1
+    let g:airline#extensions#tabline#enabled = 1 
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#virtualenv#enabled = 1
 
 " Syntax highlight (Default python highlight is better than polyglot)
-let g:polyglot_disabled = ['python']
-let python_highlight_all = 1
+"let g:polyglot_disabled = ['python']
+"let python_highlight_all = 1
+let g:python3_host_prog = '/usr/bin/python3'        " <-- System 
+"let g:python3_host_prog = '~/anaconda3/bin/python3' " <-- Anaconda
+
+"FZF
+    let g:fzf_tags_command = 'ctags -R'
+    " Border color
+    let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
+    
+    let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+    let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+    
+    
+    " Customize fzf colors to match your color scheme
+    let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+    
+    "Get Files
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+    
+    
+    " Get text in files with Rg
+    command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+      \   fzf#vim#with_preview(), <bang>0)
+    
+    " Ripgrep advanced
+    function! RipgrepFzf(query, fullscreen)
+      let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+      let initial_command = printf(command_fmt, shellescape(a:query))
+      let reload_command = printf(command_fmt, '{q}')
+      let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+      call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+    endfunction
+    
+    command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+    
+    " Git grep
+    command! -bang -nargs=* GGrep
+      \ call fzf#vim#grep(
+      \   'git grep --line-number '.shellescape(<q-args>), 0,
+      \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -41,21 +96,27 @@ let python_highlight_all = 1
 " Utility
 Plug 'majutsushi/tagbar'
 Plug 'arp242/auto_mkdir2.vim'
+Plug 'airblade/vim-rooter'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    
+    " COC Extensions
+    Plug 'Shougo/neco-vim'
+    Plug 'neoclide/coc-neco'
 
 " Color / Themes
 Plug 'drewtempelmeyer/palenight.vim'
-Plug 'ayu-theme/ayu-vim'
-Plug 'morhetz/gruvbox'
-Plug 'arcticicestudio/nord-vim'
-Plug 'tomasr/molokai'
-Plug 'laggardkernel/vim-one'
-Plug 'tomasiser/vim-code-dark'
+"Plug 'ayu-theme/ayu-vim'
+"Plug 'morhetz/gruvbox'
+"Plug 'arcticicestudio/nord-vim'
+"Plug 'tomasr/molokai'
+"Plug 'laggardkernel/vim-one'
+"Plug 'tomasiser/vim-code-dark'
 
 " Interface
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-Plug 'severin-lemaignan/vim-minimap'
+"Plug 'severin-lemaignan/vim-minimap'
 
 " Syntax
 "Plug 'sheerun/vim-polyglot'
@@ -90,6 +151,17 @@ set ruler
 set number
 set relativenumber
 set cursorline
+
+" Some servers have issues with backup files
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
 
 let no_buffers_menu=1
 
@@ -158,7 +230,12 @@ if has('unnamedplus')
 endif
 
 nnoremap <leader>; A;<esc>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>eb :source $MYVIMRC<cr>
+nnoremap <leader>v :vsplit $MYVIMRC<cr>
+nnoremap <leader>b :source $MYVIMRC<cr>
 nnoremap <c-p> :Files<cr>
 nnoremap <c-f> :Rg<cr>
+
+" COC
+    nmap <space>e :CocCommand explorer<cr>
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
