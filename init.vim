@@ -39,8 +39,8 @@ let python_highlight_all = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Utility
-Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
+Plug 'arp242/auto_mkdir2.vim'
 
 " Color / Themes
 Plug 'drewtempelmeyer/palenight.vim'
@@ -48,16 +48,17 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
 Plug 'tomasr/molokai'
-Plug 'rakr/vim-one'
+Plug 'laggardkernel/vim-one'
 Plug 'tomasiser/vim-code-dark'
 
 " Interface
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
+Plug 'severin-lemaignan/vim-minimap'
 
 " Syntax
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot'
 Plug 'mileszs/ack.vim'
 Plug 'dense-analysis/ale'
 
@@ -109,11 +110,10 @@ set background=dark
 "let g:airline_theme = 'palenight'
 
 " Italic support
-let g:one_allow_italics = 1 
+"let g:one_allow_italics=1 
 let g:palenight_terminal_italics=1
 
-colorscheme one
-
+colorscheme palenight 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Basic Setup
@@ -161,4 +161,4 @@ nnoremap <leader>; A;<esc>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>eb :source $MYVIMRC<cr>
 nnoremap <c-p> :Files<cr>
-nnoremap <c-f> :Rg<space>
+nnoremap <c-f> :Rg<cr>
