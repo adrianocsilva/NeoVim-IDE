@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug core (Begin)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
@@ -66,12 +66,14 @@ let g:coc_explorer_global_presets = {
     
     " Enable powerline fonts
         let g:airline_powerline_fonts = 1
-
+        let g:airline_left_sep = ''
+        let g:airline_right_sep = ''
     " Enable tabline
         let g:airline#extensions#tabline#enabled = 1
         let g:airline#extensions#tabline#left_sep = ' '
         let g:airline#extensions#tabline#left_alt_sep = '|' 
-    
+        let g:airline#extensions#tabline#right_sep = ' '
+        let g:airline#extensions#tabline#right_alt_sep = '|'
         " Always show tabs
         set showtabline=2
     
@@ -122,6 +124,12 @@ let g:coc_explorer_global_presets = {
     \   "variable": "\uf71b",
     \  }
 
+" Clap
+let g:clap_theme = { 'search_text': {'guifg': 'red', 'ctermfg': 'red'} }
+
+
+" Vim-Rainbow
+let g:rainbow_active = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug install packages
@@ -133,6 +141,7 @@ Plug 'arp242/auto_mkdir2.vim'
 Plug 'airblade/vim-rooter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'triglav/vim-visual-increment'   
+Plug 'frazrepo/vim-rainbow'
     " COC Extensions
    " Plug 'Shougo/neco-vim'
    " Plug 'neoclide/coc-neco'
@@ -154,16 +163,16 @@ Plug 'ryanoasis/vim-devicons'
 
 " Syntax
 "Plug 'sheerun/vim-polyglot'
-Plug 'mileszs/ack.vim'
+"Plug 'mileszs/ack.vim'
 "Plug 'dense-analysis/ale'
 
 " Search
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-else
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-endif
+"if isdirectory('/usr/local/opt/fzf')
+"  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+"else
+"  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"  Plug 'junegunn/fzf.vim'
+"endif
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'mileszs/ack.vim'
 
@@ -265,11 +274,10 @@ endif
 
 nnoremap <leader>; A;<esc>
 nnoremap <leader>v :vsplit $MYVIMRC<CR>
-nnoremap <leader>b :source $MYVIMRC<CR>
+nnoremap <leader>s :source $MYVIMRC<CR>
 nnoremap <C-p> :Clap files<CR>
 nnoremap <leader>p :Clap filer<CR>
-nnoremap <C-f> :Rg<CR>
-
+nnoremap <leader>bd :bdelete<CR>
 " COC
     nmap <space>e :CocCommand explorer<CR>
     nmap <space>f :CocCommand explorer --preset floating<CR>
@@ -280,4 +288,6 @@ inoremap <silent><expr> <C-space> coc#refresh()
 
 " Clap
 nmap <silent> <C-l> :Clap providers<CR>
-
+nnoremap <C-f> :Clap blines<CR>
+noremap <C-g> :Clap grep<CR>
+nnoremap <leader>bf :Clap buffers<CR>
