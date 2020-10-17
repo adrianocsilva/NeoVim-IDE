@@ -1,3 +1,79 @@
 {
-    "python.jediEnabled": false
+    // Suggestions
+    // "suggest.echodocSupport": true,
+    // TODO add more labels and give them cool glyphs
+    "suggest.completionItemKindLabels": {
+        "text": "t",
+        "method": "m",
+        "function": ""
+    },
+    // Diagnostics
+    "diagnostic.errorSign": " ",
+    "diagnostic.warningSign": " ",
+    "diagnostic.infoSign": "",
+    "diagnostic.hintSign": " ",
+    // "diagnostic.displayByAle": true,
+    // "diagnostic.virtualText": true, // this won't work with codelens when error on same line
+    // codelens TODO what does this get me?
+    // "codeLens.enable": true,
+    // List
+    "list.indicator": ">",
+    "list.selectedSignText": " ",
+    // Autoformat
+    "coc.preferences.formatOnSaveFiletypes": [
+        "css",
+        "markdown",
+        "javascript",
+        "graphql",
+        "html",
+        "yaml",
+        "json",
+        "python",
+        "java"
+    ],
+    "coc.preferences.hoverTarget": "float",
+    // Python config
+    //"python.linting.enabled": false,
+    "python.linting.pylintEnabled": false,
+    "python.formatting.provider": "black",
+    "python.autoComplete.addBrackets": true,
+    "python.linting.enabled": true,
+    //"python.pythonPath": "C:\\Program Files\\Python37\\python.exe",
+    "python.jediEnabled": true,
+    //"coc.preferences.triggerSignatureHelp": true,
+    // "python.formatting.blackPath": "~/.local/bin/black",
+    // "python.linting.pylintPath": "~/.miniconda/envs/neovim/bin/pylint",
+    // "python.condaPath": "~/.miniconda/bin/conda",
+    // "python.sortImports.path": "~/.miniconda/envs/neovim/bin/isort",
+    // "python.jediPath": "~/.miniconda/envs/neovim/lib/python3.8/site-packages",
+    // Snippets
+    "snippets.ultisnips.directories": [
+        "UltiSnips",
+        "~/.config/nvim/snips"
+    ],
+    //"snippets.userSnippetsDirectory": "~/.config/nvim/snips",
+    // Emmet
+    "emmet.includeLanguages": {
+        "vue-html": "html",
+        "javascript": "javascriptreact"
+    },
+    //COC-explorer
+    "explorer.width": 30,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.previewAction.onHover": false,
+    "explorer.icon.enableVimDevicons": false,
+    "explorer.keyMappings": {
+        "<cr>": [
+            "expandable?",
+            "expand",
+            "open"
+        ],
+        "v": "open:vsplit"
+    },
+    //COC-emoji
+    "coc.source.emoji.filetypes": [
+        "markdown"
+    ]
+    // TODO b:coc_suggest_disable=1 GOYO
+    // TODO add to paths.vim g:coc_node_path
 }
