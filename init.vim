@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug core (Begin)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
@@ -125,11 +125,88 @@ let g:coc_explorer_global_presets = {
     \  }
 
 " Clap
-let g:clap_theme = { 'search_text': {'guifg': 'red', 'ctermfg': 'red'} }
-
+"let g:clap_theme = { 'search_text': {'guifg': 'red', 'ctermfg': 'red'} }
+let g:clap_theme = 'material_design_dark'
 
 " Vim-Rainbow
 let g:rainbow_active = 1
+
+let g:rainbow_load_separately = [
+    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+    \ ]
+
+let g:rainbow_guifgs = ['FireBrick']
+let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta'] 
+
+" FZF
+    let g:fzf_tags_command = 'ctags -R'
+    " Border color
+    let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
+    
+    let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+    let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+    
+    
+    " Customize fzf colors to match your color scheme
+    let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+    
+    "Get Files
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+    
+    
+    " Get text in files with Rg
+    command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+      \   fzf#vim#with_preview(), <bang>0)
+    
+    " Ripgrep advanced
+    function! RipgrepFzf(query, fullscreen)
+      let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+      let initial_command = printf(command_fmt, shellescape(a:query))
+      let reload_command = printf(command_fmt, '{q}')
+      let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+      call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+    endfunction
+    
+    command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+    
+    " Git grep
+    command! -bang -nargs=* GGrep
+      \ call fzf#vim#grep(
+      \   'git grep --line-number '.shellescape(<q-args>), 0,
+      \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+    
+    " BLines with preview
+    command! -bang -nargs=* BLines
+    \ call fzf#vim#grep(
+    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
+    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --no-sort --delimiter=":"'}, 'right:50%'))
+
+
+    " Lines with preview
+    command! -bang -nargs=* Lines
+    \ call fzf#vim#grep(
+    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%')), 1,
+    \   fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --no-sort'}, 'right:50%'))
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug install packages
@@ -141,6 +218,7 @@ Plug 'arp242/auto_mkdir2.vim'
 Plug 'airblade/vim-rooter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'triglav/vim-visual-increment'   
+"Plug 'luochen1990/rainbow'
 Plug 'frazrepo/vim-rainbow'
     " COC Extensions
    " Plug 'Shougo/neco-vim'
@@ -150,7 +228,6 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'drewtempelmeyer/palenight.vim'
 "Plug 'ayu-theme/ayu-vim'
 "Plug 'morhetz/gruvbox'
-"Plug 'arcticicestudio/nord-vim'
 "Plug 'tomasr/molokai'
 "Plug 'laggardkernel/vim-one'
 "Plug 'tomasiser/vim-code-dark'
@@ -159,21 +236,20 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-"Plug 'severin-lemaignan/vim-minimap'
 
 " Syntax
 "Plug 'sheerun/vim-polyglot'
-"Plug 'mileszs/ack.vim'
 "Plug 'dense-analysis/ale'
 
 " Search
-"if isdirectory('/usr/local/opt/fzf')
-"  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-"else
-"  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"  Plug 'junegunn/fzf.vim'
-"endif
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+else
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+endif
+
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'mileszs/ack.vim'
 
 
@@ -221,8 +297,8 @@ set background=dark
 "let ayucolor="dark"   " for dark version of theme
 
 " Palenight color options
-"let g:lightline = { 'colorscheme': 'palenight' }
-"let g:airline_theme = 'palenight'
+let g:lightline = { 'colorscheme': 'palenight' }
+let g:airline_theme = 'palenight'
 
 " Italic support
 "let g:one_allow_italics=1 
@@ -273,14 +349,17 @@ if has('unnamedplus')
 endif
 
 nnoremap <leader>; A;<esc>
-nnoremap <leader>v :vsplit $MYVIMRC<CR>
+nnoremap <leader>c :vsplit $MYVIMRC<CR>
 nnoremap <leader>s :source $MYVIMRC<CR>
-nnoremap <C-p> :Clap files<CR>
-nnoremap <leader>p :Clap filer<CR>
 nnoremap <leader>bd :bdelete<CR>
+
+" Vista
+nnoremap <leader>v :Vista<CR>
+nnoremap <leader>vd :Vista!!<CR>
+
 " COC
     nmap <space>e :CocCommand explorer<CR>
-    nmap <space>f :CocCommand explorer --preset floating<CR>
+    nmap <space>w :CocCommand explorer --preset floating<CR>
     autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
    
 " use <c-space>for trigger completion
@@ -288,6 +367,14 @@ inoremap <silent><expr> <C-space> coc#refresh()
 
 " Clap
 nmap <silent> <C-l> :Clap providers<CR>
-nnoremap <C-f> :Clap blines<CR>
+nnoremap <C-f> :Clap blines<CR><space>
 noremap <C-g> :Clap grep<CR>
-nnoremap <leader>bf :Clap buffers<CR>
+nnoremap <C-p> :Clap files<CR>
+
+" FZF
+nnoremap <leader>bf :Buffers<CR>
+nnoremap <leader>f :BLines<CR>'
+noremap <leader>g :Rg <CR>
+nnoremap <leader>t :Tags<CR>
+nnoremap <leader>m :Marks<CR>
+nnoremap <leader>p :Files<CR>'
