@@ -80,11 +80,6 @@ let g:coc_explorer_global_presets = {
     " We don't need to see things like -- INSERT -- anymore
         set noshowmode
 
-" Python env
-"let g:pthon3_host_prog = '/usr/bin/python3'        " <-- System 
-"let g:python3_host_prog = '~/anaconda3/bin/python3' " <-- Anaconda
-
-
 " Vista
     " How each level is indented and what to prepend.
     " This could make the display more compact or more spacious.
@@ -208,7 +203,35 @@ let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
     \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%')), 1,
     \   fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --no-sort'}, 'right:50%'))
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Signify (git)
+    " default updatetime 4000ms is not good for async update
+    set updatetime=100
+
+    " Change these if you want
+    let g:signify_sign_add               = '+'
+    let g:signify_sign_delete            = '_'
+    let g:signify_sign_delete_first_line = '‾'
+    let g:signify_sign_change            = '~'
+    
+    " I find the numbers disctracting
+    let g:signify_sign_show_count = 0
+    let g:signify_sign_show_text = 1
+    
+    
+    " Jump though hunks
+    nmap <leader>gj <plug>(signify-next-hunk)
+    nmap <leader>gk <plug>(signify-prev-hunk)
+    nmap <leader>gJ 9999<leader>gJ
+    nmap <leader>gK 9999<leader>gk
+    
+    
+    " If you like colors instead
+    " highlight SignifySignAdd                  ctermbg=green                guibg=#00ff00
+    " highlight SignifySignDelete ctermfg=black ctermbg=red    guifg=#ffffff guibg=#ff0000
+    " highlight SignifySignChange ctermfg=black ctermbg=yellow guifg=#000000 guibg=#ffff00
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug install packages
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -236,10 +259,12 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
+Plug 'tpope/vim-commentary'
 
 " Syntax
 "Plug 'sheerun/vim-polyglot'
 "Plug 'dense-analysis/ale'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " Search
 if isdirectory('/usr/local/opt/fzf')
@@ -252,6 +277,12 @@ endif
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
+
+" Git Integration
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'junegunn/gv.vim'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug core (End)
@@ -378,3 +409,8 @@ noremap <leader>g :Rg <CR>
 nnoremap <leader>t :Tags<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>p :Files<CR>'
+
+
+" Commentary
+nnoremap <leader>/ :Commentary<CR>
+vnoremap <leader>/ :Commentary<CR>
