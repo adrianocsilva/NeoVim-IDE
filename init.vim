@@ -251,7 +251,7 @@ endif
 
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'mileszs/ack.vim'
-
+Plug 'jiangmiao/auto-pairs'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug core (End)
